@@ -167,7 +167,7 @@
 
   /* ---------- 章节 ---------- */
   .chapter {
-    max-width: 720px;
+    max-width: 760px;
     margin: 0 auto;
     padding: 16vh 26px;
     min-height: 78vh;
@@ -211,11 +211,66 @@
     font-style: italic;
     border-left: 3px solid rgba(233, 179, 74, 0.5);
     padding-left: 18px;
+    margin-top: 20px;
   }
   .chapter .emblem {
     font-size: 40px;
     margin-bottom: 16px;
     filter: drop-shadow(0 0 10px rgba(233, 179, 74, 0.45));
+  }
+
+  /* ---------- 插画样式 ---------- */
+  .chapter-illustration {
+    margin: 30px 0 35px;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.7), 0 0 25px rgba(233, 179, 74, 0.15);
+    border: 1px solid rgba(233, 179, 74, 0.3);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+  }
+
+  .chapter-illustration:hover {
+    transform: translateY(-5px) scale(1.01);
+    box-shadow: 0 20px 55px rgba(0, 0, 0, 0.8), 0 0 35px rgba(233, 179, 74, 0.3);
+  }
+
+  .chapter-illustration img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  @media (max-width: 640px) {
+    .chapter-illustration { margin: 20px 0 25px; border-radius: 10px; }
+  }
+
+  /* Lightbox 放大预览 Modal 样式 */
+  #lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    background: rgba(4, 6, 15, 0.95);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+  }
+  #lightbox.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #lightbox img {
+    max-width: 90vw;
+    max-height: 85vh;
+    border-radius: 12px;
+    border: 1px solid var(--gold);
+    box-shadow: 0 0 50px rgba(233, 179, 74, 0.4);
   }
 
   /* 滚动显现 */
@@ -354,6 +409,11 @@
 </div>
 <div id="ship">⛵</div>
 
+<!-- 点击图片放大的 Lightbox Modal -->
+<div id="lightbox" onclick="closeLightbox()">
+  <img id="lightbox-img" src="" alt="插画放大预览" />
+</div>
+
 <header class="hero">
   <div class="sun-glow"></div>
   <p class="kicker">The Odyssey of a Leo Prince</p>
@@ -400,6 +460,12 @@
     <h2>独眼巨人</h2>
     <span class="odyssey-tag">《奥德赛》卷九 · 独眼巨人波吕斐摩斯</span>
     <p>在陌生的海域，小王子遇见了独眼巨人——那是一头名叫"自我怀疑"的庞然大物。巨人咆哮着："你不够好，你做不到。"</p>
+    
+    <!-- 第一章插画：已简化为 1.jpg -->
+    <div class="chapter-illustration" onclick="openLightbox('1.jpg')">
+      <img src="1.jpg" alt="第一章 · 独眼巨人插画" />
+    </div>
+
     <p>小王子没有以蛮力相拼，而是用智慧与一个关于名字的玩笑，蒙过了巨人的独眼，在夜色掩护下悄悄溜走。</p>
     <p class="quote">真正的勇敢，从来不是不害怕，而是害怕之后，依然前行。</p>
   </section>
@@ -411,6 +477,12 @@
     <h2>塞壬之歌</h2>
     <span class="odyssey-tag">《奥德赛》卷十二 · 塞壬的歌声</span>
     <p>海妖塞壬的歌声甜美如蜜，许诺他捷径与安逸："留下来吧，何必再漂泊，何必再受苦。"</p>
+    
+    <!-- 第二章插画：已简化为 2.jpg -->
+    <div class="chapter-illustration" onclick="openLightbox('2.jpg')">
+      <img src="2.jpg" alt="第二章 · 塞壬插画" />
+    </div>
+
     <p>小王子把自己紧紧绑在理想的桅杆上，塞住双耳，让船驶向更远的海。他明白，最动听的诱惑，往往通往最深的礁石。</p>
     <p class="quote">心若有了方向，再甜的歌声也拉不走它。</p>
   </section>
@@ -422,6 +494,12 @@
     <h2>忘忧之岛</h2>
     <span class="odyssey-tag">《奥德赛》卷五 · 卡吕普索的岛屿</span>
     <p>有一座开满忘忧花的岛屿，岛上的仙女留了他许多个春秋。日子温柔得像一场漫长的梦，几乎要磨平他归乡的渴望。</p>
+    
+    <!-- 第三章插画：已简化为 3.jpg -->
+    <div class="chapter-illustration" onclick="openLightbox('3.jpg')">
+      <img src="3.jpg" alt="第三章 · 忘忧之岛插画" />
+    </div>
+
     <p>可每当夜深，望着海面，他总会想起家——那是他心里不灭的火种。于是他凿木为舟，再次启程。</p>
     <p class="quote">安逸会留住旅人，却留不住一个想要回家的人。</p>
   </section>
@@ -433,6 +511,12 @@
     <h2>逆风之囊</h2>
     <span class="odyssey-tag">《奥德赛》卷十 · 风神埃俄罗斯</span>
     <p>风神赠他一只装满逆风的皮囊，让他能一路顺风归家。同伴却误以为里面藏着宝藏，擅自解开——顿时狂风大作，把他吹回了原点。</p>
+    
+    <!-- 第四章插画：已简化为 4.jpg -->
+    <div class="chapter-illustration" onclick="openLightbox('4.jpg')">
+      <img src="4.jpg" alt="第四章 · 风神插画" />
+    </div>
+
     <p>小王子没有责怪任何人，只是沉默地重新扬帆。他懂得：迷路，也是旅途的一部分；重要的，是永远记得方向。</p>
     <p class="quote">被风吹回原点的人，会比出发时更强大。</p>
   </section>
@@ -444,6 +528,12 @@
     <h2>冥府之光</h2>
     <span class="odyssey-tag">《奥德赛》卷十一 · 冥府之行</span>
     <p>他下到最深最暗的地方，与过往的自己长谈。黑暗教他的不是恐惧，而是看清一件事：那束照进深渊的光，原来一直是他自己。</p>
+    
+    <!-- 第五章插画：已简化为 5.jpg -->
+    <div class="chapter-illustration" onclick="openLightbox('5.jpg')">
+      <img src="5.jpg" alt="第五章 · 冥府插画" />
+    </div>
+
     <p class="quote">从冥府归来的人，眼里从此有了星辰。</p>
   </section>
 
@@ -453,9 +543,9 @@
     <span class="num">EPILOGUE</span>
     <h2>华丽回归</h2>
     <span class="odyssey-tag">《奥德赛》卷廿一、廿二 · 拉开神弓</span>
-    <p>终于，他望见了故乡的灯塔。但他没有急着敲开城门——他披上旧衣，走进喧嚣的大厅。那里，挑战者们叫嚣着，却无一人能拉开他的弓。</p>
-    <p>小王子走上前，握弓，引弦，松手——一箭穿过十二把斧子的孔洞。弦声响起，如狮子低吼，如太阳破晓。</p>
-    <p class="quote">他回来了。带着一路的风浪，也带着一路的成长——华丽回归，仍是少年，已是王者。</p>
+    <p>终于，他望见了故乡的灯塔. 但他没有急着敲开城门——他披上旧衣，走进喧嚣的大厅. 那里，挑战者们叫嚣着，却无一人能拉开他的弓.</p>
+    <p>小王子走上前，握弓，引弦，松手——一箭穿过十二把斧子的孔洞. 弦声响起，如狮子低吼，如太阳破晓.</p>
+    <p class="quote">他回来了. 带着一路的风浪，也带着一路的成长——华丽回归，仍是少年，已是王者.</p>
   </section>
 
   <!-- 生日祝福 -->
@@ -574,7 +664,6 @@
   const ship = document.getElementById('ship');
   const ports = Array.from(document.querySelectorAll('.port'));
 
-  // 进度条填充层（子元素替代伪元素）
   const fill = document.createElement('div');
   fill.style.cssText = 'position:absolute;left:0;top:0;width:100%;height:0%;background:linear-gradient(#ffe9a8,#e9b34a);box-shadow:0 0 12px rgba(233,179,74,.8);transition:height .2s ease-out;border-radius:2px;';
   bar.appendChild(fill);
@@ -610,7 +699,6 @@ function makeWish() {
     (function (p) { setTimeout(() => p.remove(), 5200); })(piece);
   }
 
-  // 简短祝福浮现
   const msgs = ['愿所有风浪都化作星辰 ✨', '生日快乐，小王子 🦁', '欢迎回家，王者 👑'];
   const toast = document.createElement('div');
   toast.textContent = msgs[Math.floor(Math.random() * msgs.length)];
@@ -619,6 +707,21 @@ function makeWish() {
     'animation:fadeUp 1s ease forwards;background:rgba(10,14,34,.75);padding:16px 30px;border-radius:14px;border:1px solid rgba(233,179,74,.4);';
   document.body.appendChild(toast);
   setTimeout(() => { toast.style.transition = 'opacity 1s'; toast.style.opacity = '0'; setTimeout(() => toast.remove(), 1000); }, 2200);
+}
+
+/* ============ Lightbox 预览功能 ============ */
+function openLightbox(imgSrc) {
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  lightboxImg.src = imgSrc;
+  lightbox.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  const lightbox = document.getElementById('lightbox');
+  lightbox.classList.remove('active');
+  document.body.style.overflow = '';
 }
 </script>
 </body>
